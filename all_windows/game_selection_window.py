@@ -42,7 +42,7 @@ def open_game_selection_window(parent_window):
     button1.pack(pady=8, padx=8)
     button2 = customtkinter.CTkButton(master=game_frame, text="Snake", command=run_snake, hover_color="yellow", border_color="black", border_width=3)
     button2.pack(pady=8, padx=8)
-    button3 = customtkinter.CTkButton(master=game_frame, text="Simon says", command=run_simon, hover_color="black", border_color="black", border_width=3)
+    button3 = customtkinter.CTkButton(master=game_frame, text="Simon", command=run_simon, hover_color="black", border_color="black", border_width=3)
     button3.pack(pady=8, padx=8)
 
     game_selection_window.mainloop()

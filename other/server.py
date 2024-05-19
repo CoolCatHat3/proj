@@ -10,12 +10,13 @@ cursor = conn.cursor()
 cursor.execute('''CREATE TABLE IF NOT EXISTS users (
                     username TEXT PRIMARY KEY,
                     password TEXT,
-                    score TEXT,
+                    score INTEGER,
                     login TEXT
                 )''')
 
 conn.commit()
 conn.close()
+
 
 class User:
 
@@ -71,10 +72,10 @@ class handle_client(Thread):
         self.user = None
         handle_client.clients.append(client_socket)
 
-    # login   - can be true/false - it true, the clnet login to server
-    # srcName - who send the messgae - server of one of the clients
-    # msgType -
-    # msgData
+    # login   - can be true/false - it true, the client login to server
+    # srcName - who send the message - server of one of the clients
+    # msgType - command type: login, register or logout.
+    # msgData - data being transferred in the messages.
     def buildMsgToClient(self, msg_login, msg_type, srcName, msg_data):
         data = msg_login + "," + msg_type + "," + srcName + "," + msg_data
         return data
@@ -101,7 +102,8 @@ class handle_client(Thread):
             if username:
                 # If the user exists, check if the provided password matches the stored password
                 stored_password = username[1]  # Index 1 corresponds to the password column
-                if password == stored_password:
+                login_before = username[3]  # Check if someone already logged in to this account.
+                if password == stored_password and login_before == "False":
                     print("user {} login succesfully".format(user))
                     self.login = "True"
 
@@ -123,6 +125,9 @@ class handle_client(Thread):
                     self.user = username
                     data = self.buildMsgToClient(self.login, "Login", "Server", "Succeed")
                     return data
+                elif login_before == "True":
+                    print(("user {} is already logged in to the server".format(user)))
+                    data = self.buildMsgToClient(self.login, "Login", "Server", "Failed")
                 else:
                     print("user {} login failed".format(user))
                     data = self.buildMsgToClient(self.login, "Login", "Server", "Failed")
@@ -191,11 +196,6 @@ class handle_client(Thread):
             self.login = "True"  # when someone register he also login
             self.user = user
             data = self.buildMsgToClient(self.login, "Registration", "Server", "Succeed")
-
-        elif message_type == "play":  # play is almost identical to chat from the server side
-            data = self.buildMsgToClient(self.login, "Play", "server", client_message)
-            handle_client.broadcast(msgDst, data)
-            data = "Send"  # we already send here so no need to send from main loop
         else:
             val = client_message[::-1]  # reverse the string
             msg_type = "Unknown"
@@ -234,15 +234,15 @@ class handle_client(Thread):
             self.client_socket.send(data)
 
 
-class Server():
+class Server:
     def __init__(self, port):
         self.server_socket = socket.socket()
-        self.server_socket.bind(('0.0.0.0', 18820))
+        self.server_socket.bind(('0.0.0.0', port))
 
     def go(self):
         self.server_socket.listen(5)
 
-        while (1):
+        while 1:
             print("wait for client")
             (client_socket, client_address) = self.server_socket.accept()
             print("new client connect")

@@ -44,7 +44,7 @@ def main():
     print("starting...")
     print("client start")
     my_socket = socket.socket()
-    my_socket.connect(("127.0.0.1", 18820))
+    my_socket.connect(("127.0.0.1", 8820))
 
     a = Thread(target=client_recv_from_server, args=(my_socket,))
     a.start()

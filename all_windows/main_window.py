@@ -7,18 +7,10 @@ from all_windows.game_selection_window import open_game_selection_window
 from all_windows.leaderboards_window import open_leaderboards_window
 from time import sleep
 
+
 def create_main_window():
     customtkinter.set_appearance_mode("dark")
     customtkinter.set_default_color_theme("green")
-
-    main_window = customtkinter.CTk()
-    main_window.geometry("1000x750")
-
-    label = customtkinter.CTkLabel(master=main_window, text="Arcade - home page", text_color="white")
-    label.pack(pady=25, padx=10)
-
-    auth_frame = customtkinter.CTkFrame(master=main_window)
-    auth_frame.pack(pady=20, padx=30, fill="both", expand=True)
 
     def enable_game_button(name):
         register_button.configure(state='disabled')
@@ -61,22 +53,38 @@ def create_main_window():
                     regFlag = True  # do not wait here since it will stuck tkinter
             sleep(0.02)  # sleep 20 ms - let the cpu breath
 
+    def on_main_window_close():
+        if Globals.username != "":
+            logout()
+        main_window.destroy()
+
+    main_window = customtkinter.CTk()
+    main_window.geometry("1000x750")
+    main_window.protocol("WM_DELETE_WINDOW", on_main_window_close)
+
+    label = customtkinter.CTkLabel(master=main_window, text="Arcade - home page", text_color="white")
+    label.pack(pady=25, padx=10)
+
+    auth_frame = customtkinter.CTkFrame(master=main_window)
+    auth_frame.pack(pady=20, padx=30, fill="both", expand=True)
     register_button = customtkinter.CTkButton(master=auth_frame, text="Register",
                                               command=lambda: open_register_window(main_window, enable_game_button))
     register_button.pack(pady=12, padx=10)
 
-    login_button = customtkinter.CTkButton(master=auth_frame, text="Login", command=lambda: open_login_window(main_window, enable_game_button))
+    login_button = customtkinter.CTkButton(master=auth_frame, text="Login",
+                                           command=lambda: open_login_window(main_window, enable_game_button))
     login_button.pack(pady=12, padx=10)
 
     logout_button = customtkinter.CTkButton(master=auth_frame, text="Logout", command=logout, state='disabled')
     logout_button.pack(pady=12, padx=10)
 
-    game_button = customtkinter.CTkButton(master=auth_frame, text="Game selection",  hover_color="green", state='disabled',
-                           command=lambda: open_game_selection_window(main_window))
+    game_button = customtkinter.CTkButton(master=auth_frame, text="Game selection", hover_color="green",
+                                          state='disabled',
+                                          command=lambda: open_game_selection_window(main_window))
     game_button.pack(pady=12, padx=10)
 
     leaderboards_button = customtkinter.CTkButton(master=auth_frame, text="leaderboards",
-                                command=lambda: open_leaderboards_window(main_window))
+                                                  command=lambda: open_leaderboards_window(main_window))
     leaderboards_button.pack(pady=12, padx=10)
 
     main_window.mainloop()

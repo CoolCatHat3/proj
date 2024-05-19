@@ -1,0 +1,31 @@
+Simon instructions:
+Turn On: click on the game window to start the game.
+Watch and Listen: The game will light up one of the four colored buttons and play a corresponding tone.
+Repeat the Sequence: Press the lit buttons in the same order.
+Progress: After each correct sequence, the game will add one more step to the sequence.
+Continue: Repeat the new, longer sequence.
+Game Over: If you press the wrong button, the game will end.
+Aim for High Score: Try to remember and replicate the longest sequence possible to achieve the highest score.
+
+Snake instructions:
+Start the Game: move the snake to begin.
+Control the Snake: Use arrow keys to move the snake up, down, left, or right.
+Eat Food: Guide the snake to eat the food items that appear on the screen.
+Grow Longer: Each time the snake eats food, it grows longer.
+Avoid Crashing: Don't let the snake crash into the walls or its own body.
+Aim for High Score: Keep eating and growing to achieve the highest score possible.
+
+Rock paper scissors instructions:
+Choose Gesture: Select Rock, Paper, or Scissors.
+Computer Chooses: The computer randomly selects Rock, Paper, or Scissors.
+Determine Winner:
+-Rock beats Scissors.
+-Scissors beats Paper.
+-Paper beats Rock.
+Tie: If both you and the computer choose the same gesture, it’s a tie.
+Repeat: Play multiple rounds to see who wins more.
+
+Scoring:
+every one "score" is 15 points added to your all time score.
+although it sounds easy to gain points on rock paper scissors,
+know that you can lose points as well if the computer wins more!

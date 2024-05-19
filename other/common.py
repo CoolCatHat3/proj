@@ -8,7 +8,7 @@ from time import sleep
 """
 
 
-class Globals():
+class Globals:
     username = ""  # when we login, there is <name> here, unless, it is empty(in logout)
     dstName = "11"
 
@@ -56,6 +56,7 @@ def update_score(username, score_to_add):
         # Close the database connection
         if conn:
             conn.close()
+
 
 def get_user_score(username):
     try:
