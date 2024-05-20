@@ -92,8 +92,9 @@ class SnakeGame:
             self.move_snake()
             if self.game_over:
                 score_to_add = self.score * 15
-                update_score(Globals.username, score_to_add)
-                messagebox.showinfo(" ", "You earned " + str(score_to_add) + " points!! good job!")
+                if score_to_add != 0:
+                    update_score(Globals.username, score_to_add)
+                    messagebox.showinfo(" ", "You earned " + str(score_to_add) + " points!! good job!")
                 running = False
 
             self.draw_snake()

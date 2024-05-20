@@ -58,6 +58,25 @@ def create_main_window():
             logout()
         main_window.destroy()
 
+    def open_scoring_window(parent_window):
+        # Disable the main window
+        parent_window.attributes('-disabled', True)
+        scoring_window = customtkinter.CTkToplevel(main_window)
+        scoring_window.title("Scoring")
+        scoring_window.geometry("400x300")
+        scoring_text = "every one score is 15 points added to your all time score. \n although it sounds easy to gain points on rock paper scissors, \nknow that you can lose points as well if the computer wins more!"
+        scoring_label = customtkinter.CTkLabel(master=scoring_window, text=scoring_text, text_color="white")
+        scoring_label.pack(pady=20, padx=20)
+
+        close_scoring_button = customtkinter.CTkButton(master=scoring_window, text="Close",
+                                                       command=lambda: close_scoring_window(parent_window))
+        close_scoring_button.pack(pady=10, padx=10)
+
+        def close_scoring_window(master_window):
+            # Re-enable the main window when the register window is closed
+            master_window.attributes('-disabled', False)
+            scoring_window.destroy()
+
     main_window = customtkinter.CTk()
     main_window.geometry("1000x750")
     main_window.protocol("WM_DELETE_WINDOW", on_main_window_close)
@@ -83,9 +102,18 @@ def create_main_window():
                                           command=lambda: open_game_selection_window(main_window))
     game_button.pack(pady=12, padx=10)
 
-    leaderboards_button = customtkinter.CTkButton(master=auth_frame, text="leaderboards",
+    # Positioning the leaderboards and scoring buttons
+    scoring_button = customtkinter.CTkButton(master=auth_frame, text="Scoring",
+                                             command=lambda: open_scoring_window(main_window))
+    scoring_button.pack(side='left', anchor='s', pady=(0, 10), padx=10)
+
+    leaderboards_button = customtkinter.CTkButton(master=auth_frame, text="Leaderboards",
                                                   command=lambda: open_leaderboards_window(main_window))
-    leaderboards_button.pack(pady=12, padx=10)
+    leaderboards_button.pack(side='left', anchor='s', pady=(0, 60), padx=10)
+
+    # Adding close button to the bottom right corner
+    close_button = customtkinter.CTkButton(master=auth_frame, text="Close", command=on_main_window_close)
+    close_button.place(relx=1.0, rely=1.0, anchor='se', x=-10, y=-10)
 
     main_window.mainloop()
 

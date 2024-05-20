@@ -40,15 +40,20 @@ def open_register_window(parent_window, enable_game_button_callback):
                 print("772477", msgRecv)
                 parts = msgRecv.split(",")
                 if parts[0] == "True" and verifypassword == password:
-                    print("9999", "we registered successfully")
-                    Globals.username = username  # save the name of the user of this client
-                    messagebox.showinfo("Registration Successful", "You are now registered!")
+                    if len(password) > 4:
+                        print("9999", "we registered successfully")
+                        Globals.username = username  # save the name of the user of this client
+                        messagebox.showinfo("Registration Successful", "You are now registered!")
 
-                    # Close the register window and re-enable the main window
-                    on_register_window_close()
-                    parent_window.attributes('-disabled', False)
-                    enable_game_button_callback(username)  # Enable the game button on successful registration
-                    regFlag = True
+                        # Close the register window and re-enable the main window
+                        on_register_window_close()
+                        parent_window.attributes('-disabled', False)
+                        enable_game_button_callback(username)  # Enable the game button on successful registration
+                        regFlag = True
+                    else:
+                        messagebox.showerror("Registration Failed",
+                                             "Your password is too weak, please try again!")
+                        regFlag = True  # do not wait here since it will stuck tkinter
                 elif verifypassword != password:
                     messagebox.showerror("Registration Failed", "You typed two diffrent passwords, please try again!")
                     regFlag = True  # do not wait here since it will stuck tkinter

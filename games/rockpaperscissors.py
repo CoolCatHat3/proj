@@ -106,8 +106,10 @@ class RockPaperScissors:
         update_score(Globals.username, score_to_add)
         if score_to_add>0:
             messagebox.showinfo(" ", "You earned " + str(score_to_add) + "points!! great job!")
-        else:
+        elif score_to_add<0:
             messagebox.showinfo(" ", "You lost " + str(score_to_add) + " points... Try again!")
+        else:
+            messagebox.showinfo(" ", "A tie!! Try again!")
         pygame.quit()
 
 

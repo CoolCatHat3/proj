@@ -70,9 +70,10 @@ class SimonSays:
 
         if tile != pattern[index]:
             score_to_add = self.score * 15
-            update_score(Globals.username, score_to_add)
-            messagebox.showinfo(" ", "You earned " + str(score_to_add) + " points!! \n close this window please")
-            self.msg_display.write("Game is over! close this window...".format(self.score), align="center",
+            if score_to_add != 0:
+                update_score(Globals.username, score_to_add)
+                messagebox.showinfo(" ", "You earned " + str(score_to_add) + " points!! \n close this window please")
+            self.msg_display.write("Game is over! close this window...", align="center",
                                    font=("Arial", 16, "normal"))  # Game over msg display
             return
 
