@@ -1,5 +1,5 @@
 # game_selection_window.py
-
+from customtkinter import CTkFont
 from tkinter import messagebox
 import customtkinter
 from games.rockpaperscissors import RockPaperScissors
@@ -13,23 +13,29 @@ def open_game_selection_window(parent_window):
 
     def run_rps():
         messagebox.showinfo("Rock paper scissors instructions: ", "   Choose Gesture: Select Rock, Paper, or Scissors."
-                                                                  "Computer Chooses: The computer randomly selects Rock, Paper, or Scissors."
+                                                                  "Computer Chooses: The computer randomly selects "
+                                                                  "Rock, Paper, or Scissors. "
                                                                   "Determine Winner:"
                                                                   "-Rock beats Scissors."
                                                                   "-Scissors beats Paper."
                                                                   "-Paper beats Rock."
-                                                                  "Tie: If both you and the computer choose the same gesture, it’s a tie."
+                                                                  "Tie: If both you and the computer choose the same "
+                                                                  "gesture, it’s a tie. "
                                                                   "Repeat: Play multiple rounds to see who wins more.")
         app = RockPaperScissors()
         app.run()
 
     def run_snake():
-        messagebox.showinfo("Snake instructions: ", "Start the Game: move the snake to begin."                                                    
-                                                    "Control the Snake: Use arrow keys to move the snake up, down, left, or right."
-                                                    "Eat Food: Guide the snake to eat the food items that appear on the screen."
+        messagebox.showinfo("Snake instructions: ", "Start the Game: move the snake to begin."
+                                                    "Control the Snake: Use arrow keys to move the snake up, down, "
+                                                    "left, or right. "
+                                                    "Eat Food: Guide the snake to eat the food items that appear on "
+                                                    "the screen. "
                                                     "Grow Longer: Each time the snake eats food, it grows longer."
-                                                    "Avoid Crashing: Don't let the snake crash into the walls or its own body."
-                                                    "Aim for High Score: Keep eating and growing to achieve the highest score possible.")
+                                                    "Avoid Crashing: Don't let the snake crash into the walls or its "
+                                                    "own body. "
+                                                    "Aim for High Score: Keep eating and growing to achieve the "
+                                                    "highest score possible.")
         s = SnakeGame()
         s.run()
 
@@ -48,9 +54,6 @@ def open_game_selection_window(parent_window):
                                                            "longest sequence possible to achieve the highest score")
         ss = SimonSays()
         ss.start()
-
-    def run_flappy_bird():
-        pass
 
     def on_game_selection_window_close():
         # Re-enable the main window when the register window is closed

@@ -1,6 +1,7 @@
 import socket
 from threading import Thread, Lock
 import sqlite3
+import hashlib
 
 users = []
 conn = sqlite3.connect('user_database.db')
@@ -17,13 +18,15 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS users (
 conn.commit()
 conn.close()
 
+def hash_password(password):
+    """Hash a password using MD5."""
+    return hashlib.md5(password.encode()).hexdigest()
 
 class User:
 
-    def __init__(self, user, password, bornYear, email, gender, user_socket):
+    def __init__(self, user, password, email, gender, user_socket):
         self.user = user
-        self.password = password
-        self.bornYear = bornYear
+        self.password = hash_password(password)
         self.email = email
         self.gender = gender
 
@@ -31,9 +34,8 @@ class User:
         self.user_socket = user_socket
 
     def __repr__(self):
-        data = self.user + " " + self.password + " " + self.bornYear + " " + self.email + " " + self.gender + " " + self.login
+        data = self.user + " " + self.password + " " + self.email + " " + self.gender + " " + self.login
         return data
-
 
 class handle_client(Thread):
     clients = []  # class variable
@@ -103,8 +105,8 @@ class handle_client(Thread):
                 # If the user exists, check if the provided password matches the stored password
                 stored_password = username[1]  # Index 1 corresponds to the password column
                 login_before = username[3]  # Check if someone already logged in to this account.
-                if password == stored_password and login_before == "False":
-                    print("user {} login succesfully".format(user))
+                if hash_password(password) == stored_password and login_before == "False":
+                    print("user {} login successfully".format(user))
                     self.login = "True"
 
                     # Connect to SQLite database
@@ -155,14 +157,13 @@ class handle_client(Thread):
             # Close the connection
             conn.close()
             self.user = None
-            data = self.buildMsgToClient(self.login, "Logout", "Server", "You succesfully logout")
+            data = self.buildMsgToClient(self.login, "Logout", "Server", "You successfully logout")
 
         elif message_type == "register":
             user = parts[3]
             password = parts[4]
-            bornYear = parts[5]
-            email = parts[6]
-            gender = parts[7]
+            email = parts[5]
+            gender = parts[6]
 
             conn = sqlite3.connect('user_database.db')
             cursor = conn.cursor()
@@ -179,14 +180,14 @@ class handle_client(Thread):
                 data = self.buildMsgToClient(self.login, "Registration", "Server", "Failed - user already exist")
                 return data
 
-            val = User(user, password, bornYear, email, gender, self.client_socket)
+            val = User(user, password, email, gender, self.client_socket)
             users.append(val)
 
             # Insert the new user data
             conn = sqlite3.connect('user_database.db')
             cursor = conn.cursor()
             cursor.execute("INSERT INTO users (username, password, score, login) VALUES (?, ?, ?, ?)",
-                           (user, password, 0, "True"))
+                           (user, hash_password(password), 0, "True"))
 
             conn.commit()
             conn.close()
@@ -247,15 +248,13 @@ class Server:
             (client_socket, client_address) = self.server_socket.accept()
             print("new client connect")
 
-            stam = handle_client(client_socket)
-            stam.start()
-
+            one = handle_client(client_socket)
+            one.start()
 
 def main():
     print("server start")
     a = Server(8820)
     a.go()
-
 
 if __name__ == "__main__":
     main()

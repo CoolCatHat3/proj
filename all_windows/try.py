@@ -1,6 +1,6 @@
 from tkinter import messagebox
+from tkinter import font
 import customtkinter
-from customtkinter import CTkFont
 from all_windows.login_window import open_login_window
 from other.common import Globals, buildMsg, send_q, recv_q
 from all_windows.register_window import open_register_window
@@ -12,12 +12,6 @@ from time import sleep
 def create_main_window():
     customtkinter.set_appearance_mode("dark")
     customtkinter.set_default_color_theme("green")
-
-    main_window = customtkinter.CTk()
-    main_window.geometry("1000x750")
-
-    # Define custom fonts
-    custom_font = CTkFont(family="Helvetica", size=14, weight="bold")
 
     def enable_game_button(name):
         register_button.configure(state='disabled')
@@ -39,7 +33,7 @@ def create_main_window():
         username = Globals.username
         msgSrc = username
         msgType = "logout"
-        msgData = ["Logout"]
+        msgData = ["stam"]
         msgSend = buildMsg(msgDst, msgSrc, msgType, msgData)
         send_q.put(msgSend)
 
@@ -75,7 +69,7 @@ def create_main_window():
         scoring_label = customtkinter.CTkLabel(master=scoring_window, text=scoring_text, text_color="white")
         scoring_label.pack(pady=20, padx=20)
 
-        close_scoring_button = customtkinter.CTkButton(master=scoring_window, text="Close", font=custom_font,
+        close_scoring_button = customtkinter.CTkButton(master=scoring_window, text="Close",
                                                        command=lambda: close_scoring_window(parent_window))
         close_scoring_button.pack(pady=10, padx=10)
 
@@ -84,40 +78,42 @@ def create_main_window():
             master_window.attributes('-disabled', False)
             scoring_window.destroy()
 
+    main_window = customtkinter.CTk()
+    main_window.geometry("1000x750")
     main_window.protocol("WM_DELETE_WINDOW", on_main_window_close)
 
-    label = customtkinter.CTkLabel(master=main_window, text="Arcade - home page", text_color="white", font=custom_font)
+    label = customtkinter.CTkLabel(master=main_window, text="Arcade - home page", text_color="white")
     label.pack(pady=25, padx=10)
 
     auth_frame = customtkinter.CTkFrame(master=main_window)
     auth_frame.pack(pady=20, padx=30, fill="both", expand=True)
-    register_button = customtkinter.CTkButton(master=auth_frame, text="Register", font=custom_font,
+    register_button = customtkinter.CTkButton(master=auth_frame, text="Register",
                                               command=lambda: open_register_window(main_window, enable_game_button))
     register_button.pack(pady=12, padx=10)
 
-    login_button = customtkinter.CTkButton(master=auth_frame, text="Login", font=custom_font,
+    login_button = customtkinter.CTkButton(master=auth_frame, text="Login",
                                            command=lambda: open_login_window(main_window, enable_game_button))
     login_button.pack(pady=12, padx=10)
 
-    logout_button = customtkinter.CTkButton(master=auth_frame, text="Logout", font=custom_font, command=logout, state='disabled')
+    logout_button = customtkinter.CTkButton(master=auth_frame, text="Logout", command=logout, state='disabled')
     logout_button.pack(pady=12, padx=10)
 
-    game_button = customtkinter.CTkButton(master=auth_frame, text="Game selection", font=custom_font, hover_color="green",
+    game_button = customtkinter.CTkButton(master=auth_frame, text="Game selection", hover_color="green",
                                           state='disabled',
                                           command=lambda: open_game_selection_window(main_window))
     game_button.pack(pady=12, padx=10)
 
     # Positioning the leaderboards and scoring buttons
-    scoring_button = customtkinter.CTkButton(master=auth_frame, text="Scoring", font=custom_font,
+    scoring_button = customtkinter.CTkButton(master=auth_frame, text="Scoring",
                                              command=lambda: open_scoring_window(main_window))
     scoring_button.pack(side='left', anchor='s', pady=(0, 10), padx=10)
 
-    leaderboards_button = customtkinter.CTkButton(master=auth_frame, text="Leaderboards", font=custom_font,
+    leaderboards_button = customtkinter.CTkButton(master=auth_frame, text="Leaderboards",
                                                   command=lambda: open_leaderboards_window(main_window))
     leaderboards_button.pack(side='left', anchor='s', pady=(0, 60), padx=10)
 
     # Adding close button to the bottom right corner
-    close_button = customtkinter.CTkButton(master=auth_frame, text="Close", font=custom_font, command=on_main_window_close)
+    close_button = customtkinter.CTkButton(master=auth_frame, text="Close", command=on_main_window_close)
     close_button.place(relx=1.0, rely=1.0, anchor='se', x=-10, y=-10)
 
     main_window.mainloop()

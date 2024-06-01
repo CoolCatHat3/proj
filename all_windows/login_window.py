@@ -3,6 +3,7 @@ from tkinter import messagebox
 import customtkinter
 from time import sleep
 from other.common import buildMsg, send_q, recv_q, Globals
+from customtkinter import CTkFont
 
 
 def open_login_window(parent_window, enable_game_button_callback):
@@ -10,6 +11,9 @@ def open_login_window(parent_window, enable_game_button_callback):
 
     login_window = customtkinter.CTk()
     login_window.geometry("800x550")
+
+    # Define custom fonts
+    custom_font = CTkFont(family="Helvetica", size=14, weight="bold")
 
     def attempt_login():
         # Here, you'd collect the data and send it to the server
@@ -52,7 +56,7 @@ def open_login_window(parent_window, enable_game_button_callback):
 
     login_window.protocol("WM_DELETE_WINDOW", close_login_window)  # Bind custom close function
 
-    label = customtkinter.CTkLabel(master=login_window, text="Login window", text_color="white")
+    label = customtkinter.CTkLabel(master=login_window, text="Login window", font=custom_font, text_color="white")
     label.pack(pady=25, padx=10)
 
     login_frame = customtkinter.CTkFrame(master=login_window)
@@ -64,7 +68,7 @@ def open_login_window(parent_window, enable_game_button_callback):
     password_entry = customtkinter.CTkEntry(master=login_frame, placeholder_text="Password", show="*")
     password_entry.pack(pady=12, padx=10)
 
-    button = customtkinter.CTkButton(master=login_frame, text="Login", command=attempt_login)
+    button = customtkinter.CTkButton(master=login_frame, text="Login", font=custom_font, command=attempt_login)
     button.pack(pady=8, padx=8)
 
     login_window.mainloop()

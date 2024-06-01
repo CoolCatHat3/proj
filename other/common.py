@@ -1,20 +1,10 @@
-"""
-import sys
-import pygame
-from threading import Thread
-import socket
-import pickle
-from time import sleep
-"""
-
+import sqlite3
+from queue import Queue
 
 class Globals:
     username = ""  # when we login, there is <name> here, unless, it is empty(in logout)
     dstName = "11"
 
-
-import sqlite3
-from queue import Queue
 
 send_q = Queue()
 recv_q = Queue()
