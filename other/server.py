@@ -122,7 +122,7 @@ class handle_client(Thread):
                     conn.commit()
                     # Close the connection
                     conn.close()
-                    val = User(user, password, 'bornYear', 'email', 'gender', self.client_socket)
+                    val = User(user, password, 'email', 'gender', self.client_socket)
                     users.append(val)
                     self.user = username
                     data = self.buildMsgToClient(self.login, "Login", "Server", "Succeed")
